@@ -29,10 +29,16 @@ void setup() {
   Serial.begin(9600);
 }
 
+bool endpointFlag = false;
+
 void loop() {
   //read data
   thing.handle();
-  Serial.println(dht1.readTemperature());
+  //Serial.println(dht1.readTemperature());
+    if ( (dht2filterReadTemperature() > 100) && !endpointFlag){
+      thing.call_endpoint("myEmail",thing["garageTemp2"]);
+    endpointFlag = true;
+  }
 }
 
 float dht1filterReadTemperature(){
